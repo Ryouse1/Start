@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Scratch project.js 読み込みサンプル（同リポジトリ）</title>
+<style>
+body { font-family: sans-serif; padding: 20px; }
+ul { list-style: none; padding-left: 0; }
+li { margin-bottom: 10px; }
+</style>
+</head>
+<body>
+
+<h2>同リポジトリの project.js 読み込みサンプル</h2>
+<div id="log"></div>
+<ul id="spriteList"></ul>
+
+<script type="module">
+const logDiv = document.getElementById('log');
+const list = document.getElementById('spriteList');
+
+// ✅ 同リポジトリの project.js を読み込む
+import project from "./project.js"; // 相対パスでOK
+
+logDiv.textContent = "project.js 読み込み完了\n";
+logDiv.textContent += `targets数: ${project.targets.length}\n`;
+
+// Spriteごとに表示
+project.targets.forEach(target => {
+  const li = document.createElement("li");
+  li.innerHTML = `<strong>${target.name}</strong> - ブロック数: ${Object.keys(target.blocks).length} - 変数: ${Object.keys(target.variables).length}`;
+  list.appendChild(li);
+});
+
+// ブロック例：最初のSpriteの最初のブロックID
+const firstSprite = project.targets.find(t => !t.isStage);
+if (firstSprite) {
+  const firstBlockId = Object.keys(firstSprite.blocks)[0];
+  logDiv.textContent += `\n最初のスプライトの最初のブロックID: ${firstBlockId}`;
+}
+</script>
+
+</body>
+</html>
